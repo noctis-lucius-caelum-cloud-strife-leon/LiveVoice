@@ -1,64 +1,64 @@
 # LiveVoice
 
-**LiveVoice** is a free, open-source TikTok LIVE text-to-speech and sound-alert application.
+**Free, open-source TikTok LIVE text-to-speech and sound alerts.**
 
-It reads live chat messages aloud, plays customizable sounds when someone follows or sends a gift, and filters unwanted messages before they reach your speakers.
+LiveVoice is a lightweight application that reads TikTok LIVE chat messages aloud and plays customizable sounds when viewers follow or send gifts.
 
-Designed for streamers who want a lightweight, customizable alternative to subscription-based TTS and alert tools.
+It includes chat filtering, voice customization, and a simple local dashboard. No subscriptions, API keys, or TikTok login required.
 
 ## Features
 
-### TikTok LIVE Integration
-- Connect to a TikTok LIVE stream using a username.
-- Receive live chat messages, follows, and gifts.
-- Automatically reconnecting is not yet guaranteed.
+### 💬 Live Chat Text-to-Speech
+- Automatically reads TikTok LIVE comments aloud.
+- Multiple Microsoft Edge TTS voices.
+- Adjustable TTS volume and message cooldown.
+- Queued audio playback to prevent overlapping messages.
+- Built-in TTS testing.
 
-### Text-to-Speech
-- Read incoming chat messages aloud.
-- Select from supported Microsoft Edge TTS voices.
-- Adjust speech volume.
-- Configure a cooldown between messages.
-- Queue speech to avoid overlapping playback.
-- Test TTS directly from the dashboard.
-
-### Chat Filtering
-- Built-in profanity and offensive-language filtering.
-- Detect common attempts to disguise blocked words using spacing, punctuation, repeated letters, and character substitutions.
+### 🛡️ Chat Filtering
 - Custom blocked words and phrases.
+- Detection of common text obfuscation techniques, including spacing, punctuation, repeated letters, and character substitutions.
 - URL and domain blocking.
 - Maximum message length.
 - Duplicate-message protection.
 - Username filtering.
 
-Filtering is configurable and designed to reduce TTS abuse, but no automated filter can guarantee that every offensive message will be caught.
+**Note:** No automated filter is perfect. LiveVoice provides an additional layer of protection, not a replacement for TikTok's moderation tools.
 
-### Sound Alerts
-- Play a custom sound when someone follows.
-- Play a custom sound when someone sends a gift.
-- Handle repeating gift streaks to reduce duplicate alerts.
-- Enable or disable supported features independently.
+### 🔊 Sound Alerts
+- **Follower alerts:** Play a customizable sound when someone follows.
+- **Gift alerts:** Play a customizable sound when someone sends a gift.
+- Supports custom MP3 sound files.
+- Gift streak handling to reduce duplicate alerts.
+- Independently enable or disable chat TTS, follower alerts, and gift alerts.
 
-### Dashboard
-- Local browser-based interface.
-- Configure TTS, filters, and alerts.
-- Connect to a LIVE stream without using terminal commands inside the dashboard.
-- View connection status and recent activity.
+**Note:** Sound files must currently be selected manually. LiveVoice does not automatically assign default alert sounds.
+
+### 🖥️ Local Dashboard
+- Configure LiveVoice through a browser-based interface.
+- Connect to a LIVE stream using a TikTok username.
+- Customize voices, sounds, volume, and filtering.
+- View connection status and recent events.
 
 ## Installation
 
-### Windows
+### Windows (Recommended)
 
-A Windows installer is planned.
+1. Open the repository's [Releases](https://github.com/noctis-lucius-caelum-cloud-strife-leon/LiveVoice/releases) page.
+2. Download `LiveVoice-Setup.exe` from the latest release, if available.
+3. Run the installer.
+4. Launch LiveVoice from the Start menu or desktop shortcut.
+5. The dashboard opens in your default browser.
 
-Once the Windows build is successfully produced and tested, users will be able to download `LiveVoice-Setup.exe` from the project's GitHub Releases page.
+**No Python installation or virtual environment is required.**
 
-The goal is to require **no separate Python installation, virtual environment, or command-line setup**.
+**Important:** LiveVoice currently opens a console window alongside the dashboard. Keep this window open while using the application. Closing it will stop LiveVoice.
 
-**Note:** The Windows installer has not yet been verified. Until then, use the source installation instructions below.
+Windows may display a SmartScreen warning because the application is not code-signed.
 
-### Linux / Development
+### Linux / Running from Source
 
-Requires Python 3.12 or another compatible Python 3 version.
+Python 3.11 or newer is recommended.
 
 Clone the repository:
 
@@ -67,7 +67,7 @@ git clone https://github.com/noctis-lucius-caelum-cloud-strife-leon/LiveVoice.gi
 cd LiveVoice
 ```
 
-Create and activate a virtual environment:
+Create a virtual environment:
 
 ```bash
 python3 -m venv .venv
@@ -80,88 +80,94 @@ Install dependencies:
 python -m pip install -r requirements.txt
 ```
 
-Launch LiveVoice in browser mode:
+Start LiveVoice:
 
 ```bash
 python -m livevoice.main --browser
 ```
 
-The dashboard should open in your default web browser.
+Browser mode avoids the need for additional GTK or Qt desktop dependencies.
 
-On Linux, browser mode avoids requiring the GTK or Qt libraries used by the desktop window.
+## How to Use
 
-## Usage
-
-1. Start LiveVoice.
-2. Enter the TikTok username of the account broadcasting LIVE.
+1. Launch LiveVoice.
+2. Enter the TikTok username of the account currently broadcasting LIVE.
 3. Click **Connect**.
-4. Enable chat TTS and configure your preferred voice and volume.
-5. Configure follower and gift alert sounds.
-6. Set up chat filtering and custom blocked phrases.
+4. Enable chat TTS and choose your preferred voice.
+5. Configure follower and gift sound alerts.
+6. Adjust chat filtering as needed.
 7. Save your settings.
 
-The broadcaster must be LIVE for the TikTok connection to receive live events.
+LiveVoice must remain running to receive LIVE events and play sounds.
 
-## Building for Windows
+## Building the Windows Installer
 
-LiveVoice uses **PyInstaller** to bundle the Python application and its dependencies, and **Inno Setup** to produce a Windows installer.
+The Windows installer is built automatically using GitHub Actions.
 
-The repository includes packaging configuration intended for GitHub Actions.
+The build uses:
 
-To build the installer:
+- **PyInstaller** to bundle the Python application and its dependencies.
+- **Inno Setup** to create the Windows installer.
+- **GitHub Actions** to build on a Windows runner.
 
-1. Push the project and packaging files to GitHub.
-2. Open the repository's **Actions** tab.
-3. Run the Windows installer build workflow.
-4. Download the resulting build artifact.
+To build your own installer:
 
-The Windows build process still requires testing on a Windows environment.
+1. Fork or clone the repository.
+2. Open the **Actions** tab on GitHub.
+3. Select **Build Windows installer**.
+4. Click **Run workflow**.
+5. Download the installer artifact after the workflow completes.
 
-## Technology
+The workflow also produces a portable Windows build.
 
-- **Python** — application backend
-- **TikTokLive** — unofficial TikTok LIVE integration
-- **edge-tts** — text-to-speech
-- **pygame** — audio playback
-- **FastAPI / Uvicorn** — local backend API
-- **HTML, CSS, JavaScript** — dashboard
-- **PyInstaller** — application packaging
-- **Inno Setup** — Windows installation
+The current working Windows configuration uses PyInstaller's `--console` option.
 
-## Privacy
+## Technology Stack
 
-LiveVoice runs locally and does not require a LiveVoice account.
+| Component | Technology |
+|---|---|
+| Application backend | Python |
+| TikTok LIVE integration | TikTokLive |
+| Text-to-speech | edge-tts |
+| Audio playback | pygame |
+| Local API | FastAPI / Uvicorn |
+| Dashboard | HTML, CSS, JavaScript |
+| Windows executable | PyInstaller |
+| Windows installer | Inno Setup |
 
-It processes public LIVE chat and event data to provide TTS and sound alerts. Diagnostic logs may contain usernames, chat messages, and event information.
+## Privacy and Security
 
-TikTokLive and edge-tts may communicate with external services to perform their respective functions.
+LiveVoice runs locally and does not require a separate LiveVoice account.
 
-Do not publish personal settings, logs, or other private runtime files in your GitHub repository.
+- LIVE comments and events are processed to provide TTS and alerts.
+- TTS generation uses an external speech service.
+- Diagnostic logs may contain usernames and chat messages.
+- Your settings and logs should not be uploaded to a public repository.
+
+LiveVoice uses the unofficial TikTokLive library. TikTok may change its systems at any time, potentially affecting compatibility.
 
 ## Known Limitations
 
-- TikTokLive is an unofficial library and may break if TikTok changes its systems.
-- Gift and follow events depend on the data made available by TikTok.
-- Automated chat filtering is not foolproof.
-- Internet connectivity is required for TikTok LIVE integration and online TTS.
-- Windows installer compatibility has not yet been fully tested.
+- The Windows application currently requires its console window to remain open.
+- The application requires an internet connection.
+- TTS filtering cannot catch every offensive or deliberately disguised message.
+- TikTok LIVE connectivity depends on an unofficial third-party library.
+- Some antivirus products or Windows SmartScreen may flag unsigned executables.
 
 ## Contributing
 
-Contributions, bug reports, and feature suggestions are welcome.
+Contributions, bug reports, and suggestions are welcome!
 
-If you encounter a problem, open a GitHub issue with:
-- Your operating system
-- Your Python version, if running from source
-- Steps to reproduce the problem
-- Relevant error messages, with personal information removed
+If you encounter a bug, please [open an issue](https://github.com/noctis-lucius-caelum-cloud-strife-leon/LiveVoice/issues) and include your operating system, steps to reproduce the problem, and relevant error messages.
+
+Please remove personal information from logs before sharing them.
 
 ## License
 
-LiveVoice is released under the **MIT License**. See [LICENSE](LICENSE) for details.
+LiveVoice is licensed under the **MIT License**. See [LICENSE](LICENSE) for details.
 
 ## Disclaimer
 
-LiveVoice is an independent, unofficial project and is not affiliated with, endorsed by, or sponsored by TikTok or ByteDance.
+LiveVoice is an independent, unofficial application and is not affiliated with, endorsed by, or sponsored by TikTok or ByteDance.
 
 TikTok is a trademark of its respective owner.
