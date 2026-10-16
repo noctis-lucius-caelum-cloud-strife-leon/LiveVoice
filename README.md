@@ -135,17 +135,6 @@ The current working Windows configuration uses PyInstaller's `--console` option.
 | Windows executable | PyInstaller |
 | Windows installer | Inno Setup |
 
-## Privacy and Security
-
-LiveVoice runs locally and does not require a separate LiveVoice account.
-
-- LIVE comments and events are processed to provide TTS and alerts.
-- TTS generation uses an external speech service.
-- Diagnostic logs may contain usernames and chat messages.
-- Your settings and logs should not be uploaded to a public repository.
-
-LiveVoice uses the unofficial TikTokLive library. TikTok may change its systems at any time, potentially affecting compatibility.
-
 ## Known Limitations
 
 - The Windows application currently requires its console window to remain open.
