@@ -16,6 +16,15 @@ class SettingsPayload(BaseModel):
     voice: str = 'en-US-AriaNeural'
     volume: float = 0.8
     cooldown: int = 3
+    gift_alert: bool = True
+    gift_sound: str = ''
+    gift_speak: bool = False
+    filter_enabled: bool = True
+    filter_profanity: bool = True
+    filter_urls: bool = True
+    filter_max_chars: int = 180
+    filter_blocked_terms: str = ""
+    filter_repeated: bool = True
 
 class ConnectPayload(BaseModel):
     username: str
@@ -26,7 +35,7 @@ def index():
 
 @app.get('/api/state')
 def state():
-    return {'settings': engine.settings, 'status': engine.status, 'events': engine.events[:30]}
+    return engine.snapshot()
 
 @app.post('/api/settings')
 def settings(data: SettingsPayload):
@@ -58,17 +67,28 @@ def test_follow():
     engine.enqueue('sound', path)
     return {'ok': True}
 
+@app.post('/api/test/gift')
+def test_gift():
+    if engine.settings['gift_speak']:
+        engine.enqueue('tts', 'Thank you for the gift!')
+    path = SOUNDS_DIR / engine.settings['gift_sound']
+    if engine.settings['gift_alert'] and engine.settings['gift_sound'] and path.is_file():
+        engine.enqueue('sound', path)
+    return {'ok': True}
+
 @app.post('/api/mute')
 def mute():
     engine.mute()
     return {'ok': True}
 
-@app.post('/api/upload/follow')
-async def upload_follow(file: UploadFile = File(...)):
+@app.post('/api/upload/{kind}')
+async def upload_sound(kind: str, file: UploadFile = File(...)):
+    if kind not in ('follow', 'gift'):
+        raise HTTPException(404, 'Unknown sound category')
     suffix = Path(file.filename or '').suffix.lower()
     if suffix not in ('.mp3', '.wav', '.ogg'):
         raise HTTPException(400, 'Use MP3, WAV, or OGG')
-    name = 'follow' + suffix
+    name = kind + suffix
     path = SOUNDS_DIR / name
     total = 0
     with path.open('wb') as dest:
@@ -78,5 +98,5 @@ async def upload_follow(file: UploadFile = File(...)):
                 path.unlink(missing_ok=True)
                 raise HTTPException(413, 'Max sound size is 10 MB')
             dest.write(chunk)
-    engine.save({'follow_sound': name})
+    engine.save({kind + '_sound': name})
     return {'filename': name}
