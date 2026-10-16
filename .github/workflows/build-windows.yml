@@ -17,7 +17,7 @@ jobs:
       - name: Build bundled application
         shell: pwsh
         run: |
-          pyinstaller --noconfirm --clean --onedir --windowed --name LiveVoice --add-data "web;web" --collect-all edge_tts --collect-all TikTokLive --collect-all pygame --collect-all webview --collect-all certifi --collect-all uvicorn --collect-all fastapi --collect-all pydantic --collect-all httptools --collect-all websockets launcher.py
+          pyinstaller --noconfirm --clean --onedir --console --name LiveVoice --add-data "web;web" --collect-all edge_tts --collect-all TikTokLive --collect-all pygame --collect-all webview --collect-all certifi --collect-all uvicorn --collect-all fastapi --collect-all pydantic --collect-all httptools --collect-all websockets launcher.py
       - name: Compile Windows installer
         shell: pwsh
         run: |
