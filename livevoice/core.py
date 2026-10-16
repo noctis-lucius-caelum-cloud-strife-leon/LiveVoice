@@ -28,6 +28,7 @@ DEFAULTS = {
 
 
 # Conservative built-in word list. Custom terms are editable in the dashboard. # actually removed it because tiktok already filters these
+BUILTIN_TERMS = []
 LEET = str.maketrans({'0':'o','1':'i','3':'e','4':'a','5':'s','7':'t','8':'b','@':'a','$':'s','!':'i'})
 ZERO_WIDTH = {chr(n) for n in (0x200b,0x200c,0x200d,0x2060,0xfeff)}
 URL_RE = re.compile(r'(?i)(?:https?://|www\.|\b[a-z0-9-]+\.(?:com|net|org|gg|io|tv|co|ru|xyz)\b)')
